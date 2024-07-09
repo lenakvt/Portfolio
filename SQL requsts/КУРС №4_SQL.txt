@@ -1,0 +1,211 @@
+﻿КУРС №4:SQL
+
+
+Домашняя работа №1
+
+
+Запрос №1
+Описание:
+Найдите id (поле user_id) пользователя с почтой 
+houston42@gmail.com
+ (таблица users). Выведите только столбец user_id. 
+
+
+SELECT user_id
+FROM users
+WHERE user_email='houston42@gmail.com';
+
+
+Запрос №2
+Описание:
+Найдите уровень (поле level) студента с user_id = 44133 (таблица student). Выведите только столбец level.
+
+
+SELECT level
+FROM student
+WHERE user_id=44133;
+
+
+Запрос №3
+Описание: 
+Найдите предмет (поле subject_title) с subject_id = 8 (таблица subject). Выведите только столбец subject_title.
+
+
+SELECT subject_title
+FROM subject
+WHERE subject_id=8;
+
+
+Запрос №4
+Описание: 
+Найдите email учителя группы с group_id = 80 (таблица teacher). Выведите только столбец email.
+SELECT email
+FROM teacher
+WHERE group_id=80;
+
+
+Запрос №5
+Описание:
+Выведите уникальные форматы обучения (education_form) для студента с user_id = 12203 (таблица student). Выведите только столбец education_form.
+
+
+SELECT DISTINCT education_form
+FROM student
+WHERE user_id=12203
+
+
+Домашняя работа №2
+
+
+Запрос №1
+Описание: 
+Из таблицы student выведите уровень студента с id = 9651. Дайте колонке level псевдоним (алиас) stud_level.
+
+
+SELECT level AS stud_level
+FROM student
+WHERE user_id=9651;
+
+
+Запрос №2: 
+Описание: 
+Из таблицы teacher выведите только email учителей с id = 30019 и id = 31433 (в одном запросе). Допустимо использовать и OR, и IN.
+
+
+SELECT email
+FROM teacher
+WHERE teacher_id IN (30019,31433);
+
+
+Запрос №3: 
+Описание: 
+Из таблицы student выведите пользователей c user_id больше 30000, с уровнем Advanced, которые занимаются в группах (group), ИЛИ выведите пользователей с user_id меньше или равным 50, с уровнем Upper-Intermediate, которые занимаются индивидуально (personal). Выводим только столбец user_id.
+
+
+SELECT user_id
+FROM student 
+WHERE(user_id>30000 AND level='Advanced' AND education_form='group') 
+OR (user_id<=50 AND level='Upper-Intermediate' AND education_form='personal');
+
+
+Запрос №4
+Описание: 
+Из таблицы teacher выведите email учителей из групп от 180 до 185 (group_id).
+
+
+SELECT email
+FROM teacher
+WHERE group_id BETWEEN 180 and 185;
+
+
+Запрос №5
+Описание:
+Из таблицы users выведите user_id пользователей, у которых email заканчивается на 43@yahoo.com.
+
+
+SELECT user_id
+FROM users
+WHERE user_email LIKE'%43@yahoo.com'
+
+
+Домашняя работа №3
+
+
+Запрос №1
+Описание: 
+В таблице student найдите общее количество индивидуально обучающихся студентов для каждого уровня. Вывод отсортируйте по количеству студентов в порядке убывания. Порядок колонок в результирующей таблице: уровни, количество студентов в каждом уровне.
+
+
+SELECT LEVEL, COUNT(*)
+FROM student
+WHERE subject_id=1 and education_form='personal'
+GROUP BY LEVEL
+ORDER BY 2 DESC;
+
+
+Запрос №2
+Описание: 
+В таблице student найдите количество студентов с уровнем Advanced для каждой формы обучения. Отсортируйте вывод по количеству студентов в порядке возрастания. Порядок колонок в результирующей таблице: формы обучения, количество студентов в каждой форме.
+
+
+SELECT education_form, COUNT(*)
+FROM student
+WHERE subject_id=1 and level='Advanced'
+GROUP BY education_form
+ORDER BY 2;
+
+
+Запрос №3
+Описание: 
+В таблице group_student найдите максимальное и минимальное значения id группы. Порядок колонок в результирующей таблице: минимальное значение, максимальное значение.
+SELECT MIN(group_id),MAX(group_id)
+FROM group_student;
+Запрос №4
+Описание: 
+В таблице group_student посчитайте количество студентов в каждой группе. В выводе оставьте только одну строку с id группы, в которой учится больше всего студентов. Используйте GROUP BY, ORDER BY и LIMIT, а столбцу с количеством дайте алиас group_count.
+Порядок колонок в результирующей таблице: количество студентов, id группы. В таблице одна строка.
+
+
+SELECT COUNT(*) AS group_count, group_id
+FROM group_student
+GROUP BY 2
+ORDER BY 1 DESC
+LIMIT 1
+
+
+Домашняя работа №4:
+
+
+Запрос №1
+Описание: 
+Найдите учеников и все группы, в которых преподает учитель с почтой blanda.jamil@yahoo.com. Используйте таблицы group_student и teacher. Порядок колонок в результирующей таблице: id учеников, id групп.
+
+
+SELECT group_student.user_id,
+teacher.group_id
+FROM group_student
+INNER JOIN teacher
+ON group_student.group_id=teacher.group_id
+WHERE teacher.email='blanda.jamil@yahoo.com';
+
+
+Запрос №2
+Описание: 
+Из таблиц users и student выведите уровень ученика с почтой gpagac@jacobs.com.
+Результирующая таблица содержит только название уровня.
+
+
+SELECT users.user_id,
+student.level
+FROM users
+INNER JOIN student
+ON users.user_id=student.user_id
+WHERE user_email='gpagac@jacobs.com'; 
+
+
+Запрос №3
+Описание: 
+Выведите количество пользователей (таблица users), которые не являются студентами (отсутствуют соответствия в таблице student).
+Подсказка: используйте LEFT JOIN и ограничение student.user_id is null.
+Результирующая таблица содержит только количество студентов.
+
+
+SELECT COUNT(*)
+FROM users AS u
+LEFT JOIN student AS s
+ON u.user_id=s.user_id
+WHERE s.user_id is null;
+
+
+Запрос №4
+Описание: 
+Из таблиц student и group_student выведите уникальные уровни студентов, которые занимаются в группе с id = 10. Столбцу с уровнем дайте псевдоним (алиас) unique_level.
+Результирующая таблица содержит только уникальные уровни студентов.
+
+
+SELECT level AS unique_level
+FROM student AS s
+LEFT JOIN group_student AS g
+ON s.user_id=g.user_id
+Where group_id=10
+GROUP BY unique_level

@@ -1,0 +1,700 @@
+{
+	"info": {
+		"_postman_id": "1c714931-c29c-4b14-946a-084a8829514c",
+		"name": "Yandex. Расписания",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34400745"
+	},
+	"item": [
+		{
+			"name": "Расписание рейсов между выбранными станциями",
+			"item": [
+				{
+					"name": "Позитивный",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const moment = require('moment');\r",
+									"pm.collectionVariables.set(\"today\", moment().format(\"YYYY/MM/DD\"));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{api_key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/search/?apikey={{Api_key}}&format=json&from=c146&to=c213&lang=ru_RU&page=1&date=2024-05-02",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"search",
+								""
+							],
+							"query": [
+								{
+									"key": "apikey",
+									"value": "{{Api_key}}"
+								},
+								{
+									"key": "format",
+									"value": "json"
+								},
+								{
+									"key": "from",
+									"value": "c146"
+								},
+								{
+									"key": "to",
+									"value": "c213"
+								},
+								{
+									"key": "lang",
+									"value": "ru_RU"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "date",
+									"value": "2024-05-02"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Негативный (неккоректная дата)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/search/?apikey={{Api_key}}&format=json&from=c146&to=c213&lang=ru_RU&page=1&date=2024-04-31",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"search",
+								""
+							],
+							"query": [
+								{
+									"key": "apikey",
+									"value": "{{Api_key}}"
+								},
+								{
+									"key": "format",
+									"value": "json"
+								},
+								{
+									"key": "from",
+									"value": "c146"
+								},
+								{
+									"key": "to",
+									"value": "c213"
+								},
+								{
+									"key": "lang",
+									"value": "ru_RU"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "date",
+									"value": "2024-04-31"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Расписание рейсов, отправляющихся от указанной станции",
+			"item": [
+				{
+					"name": "Позитивный",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response contains expected value\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"   pm.expect(jsonData.station.code).to.eql(\"s9600213\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains expected value2\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"   pm.expect(jsonData.station.title).to.eql(\"Шереметьево\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{api_key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/schedule/?apikey={{Api_key}}&station=s9600213&transport_types=suburban&direction=на%20Москву",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"schedule",
+								""
+							],
+							"query": [
+								{
+									"key": "apikey",
+									"value": "{{Api_key}}"
+								},
+								{
+									"key": "station",
+									"value": "s9600213"
+								},
+								{
+									"key": "transport_types",
+									"value": "suburban"
+								},
+								{
+									"key": "direction",
+									"value": "на%20Москву"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Негативный (сделать Токен не валидным)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{api_key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/schedule/?apikey={{Api_key2}}&station=s9600213&transport_types=suburban&direction=на%20Москву",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"schedule",
+								""
+							],
+							"query": [
+								{
+									"key": "apikey",
+									"value": "{{Api_key2}}"
+								},
+								{
+									"key": "station",
+									"value": "s9600213"
+								},
+								{
+									"key": "transport_types",
+									"value": "suburban"
+								},
+								{
+									"key": "direction",
+									"value": "на%20Москву"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{Api_key}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Маршрут с указанием времени в пути  и всех остановок",
+			"item": [
+				{
+					"name": "Позитивный",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Body contains specific value\", function () {\r",
+									"pm.expect(pm.response.text()).to.include(\"title\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const moment = require('moment');\r",
+									"pm.collectionVariables.set(\"today\", moment().format(\"YYYY/MM/DD\"));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{api_key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/thread/?apikey={{Api_key}}&format=json&uid=6004_0_9613989_g24_4&lang=ru_RU&show_systems=all",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"thread",
+								""
+							],
+							"query": [
+								{
+									"key": "apikey",
+									"value": "{{Api_key}}"
+								},
+								{
+									"key": "format",
+									"value": "json"
+								},
+								{
+									"key": "uid",
+									"value": "6004_0_9613989_g24_4"
+								},
+								{
+									"key": "lang",
+									"value": "ru_RU"
+								},
+								{
+									"key": "show_systems",
+									"value": "all"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Негативный (некорректный uid)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{api_key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/thread/?apikey={{Api_key}}&format=json&uid=6004_0_9613989_g24_4h&lang=ru_RU&show_systems=all",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"thread",
+								""
+							],
+							"query": [
+								{
+									"key": "apikey",
+									"value": "{{Api_key}}"
+								},
+								{
+									"key": "format",
+									"value": "json"
+								},
+								{
+									"key": "uid",
+									"value": "6004_0_9613989_g24_4h"
+								},
+								{
+									"key": "lang",
+									"value": "ru_RU"
+								},
+								{
+									"key": "show_systems",
+									"value": "all"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{Api_key}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Список ближайших к заданной точке станций",
+			"item": [
+				{
+					"name": "Позитивный",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Body contains specific value\", function () {\r",
+									"pm.expect(pm.response.text()).to.include(\"title\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{api_key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/nearest_stations/?apikey={{Api_key}}&format=json&lat=50.440046&lng=40.4882367&distance=50&lang=ru_RU",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"nearest_stations",
+								""
+							],
+							"query": [
+								{
+									"key": "apikey",
+									"value": "{{Api_key}}"
+								},
+								{
+									"key": "format",
+									"value": "json"
+								},
+								{
+									"key": "lat",
+									"value": "50.440046"
+								},
+								{
+									"key": "lng",
+									"value": "40.4882367"
+								},
+								{
+									"key": "distance",
+									"value": "50"
+								},
+								{
+									"key": "lang",
+									"value": "ru_RU"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Негативный (некорректная широта с буквой)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{api_key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/nearest_stations/?apikey={{Api_key}}&format=json&lat=50.440046s&lng=40.4882367&distance=50&lang=ru_RU",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"nearest_stations",
+								""
+							],
+							"query": [
+								{
+									"key": "apikey",
+									"value": "{{Api_key}}"
+								},
+								{
+									"key": "format",
+									"value": "json"
+								},
+								{
+									"key": "lat",
+									"value": "50.440046s"
+								},
+								{
+									"key": "lng",
+									"value": "40.4882367"
+								},
+								{
+									"key": "distance",
+									"value": "50"
+								},
+								{
+									"key": "lang",
+									"value": "ru_RU"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{Api_key}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{Api_key}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Api_key",
+			"value": "786ef5f6-d018-48ba-91a7-86840c17e9e2",
+			"type": "string"
+		},
+		{
+			"key": "base_url",
+			"value": "https://api.rasp.yandex.net/v3.0",
+			"type": "string"
+		},
+		{
+			"key": "today",
+			"value": ""
+		},
+		{
+			"key": "from",
+			"value": "c146",
+			"type": "string"
+		},
+		{
+			"key": "to",
+			"value": "c213",
+			"type": "string"
+		},
+		{
+			"key": "station",
+			"value": "s9600213",
+			"type": "string"
+		},
+		{
+			"key": "uid",
+			"value": "6004_0_9613989_g24_4",
+			"type": "string"
+		},
+		{
+			"key": "lat",
+			"value": "50.440046",
+			"type": "string"
+		},
+		{
+			"key": "lng",
+			"value": "40.4882367",
+			"type": "string"
+		},
+		{
+			"key": "distance",
+			"value": "50",
+			"type": "string"
+		}
+	]
+}

@@ -1,0 +1,1023 @@
+{
+	"info": {
+		"_postman_id": "cbf9d485-fca1-48ae-bebf-d9b1ba0d5063",
+		"name": "Курсовая -2",
+		"description": "# 🚀 Get started here\n\nThis template guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.\n\n## 🔖 **How to use this template**\n\n#### **Step 1: Send requests**\n\nRESTful APIs allow you to perform CRUD operations using the POST, GET, PUT, and DELETE HTTP methods.\n\nThis collection contains each of these [request](https://learning.postman.com/docs/sending-requests/requests/) types. Open each request and click \"Send\" to see what happens.\n\n#### **Step 2: View responses**\n\nObserve the response tab for status code (200 OK), response time, and size.\n\n#### **Step 3: Send new Body data**\n\nUpdate or add new data in \"Body\" in the POST request. Typically, Body data is also used in PUT request.\n\n```\n{\n    \"name\": \"Add your name in the body\"\n}\n\n ```\n\n#### **Step 4: Update the variable**\n\nVariables enable you to store and reuse values in Postman. We have created a [variable](https://learning.postman.com/docs/sending-requests/variables/) called `base_url` with the sample request [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me). Replace it with your API endpoint to customize this collection.\n\n#### **Step 5: Add tests in the \"Tests\" tab**\n\nTests help you confirm that your API is working as expected. You can write test scripts in JavaScript and view the output in the \"Test Results\" tab.\n\n<img src=\"https://content.pstmn.io/b5f280a7-4b09-48ec-857f-0a7ed99d7ef8/U2NyZWVuc2hvdCAyMDIzLTAzLTI3IGF0IDkuNDcuMjggUE0ucG5n\">\n\n## 💪 Pro tips\n\n- Use folders to group related requests and organize the collection.\n- Add more [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/) in \"Tests\" to verify if the API works as expected and execute workflows.\n    \n\n## 💡Related templates\n\n[API testing basics](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9a37a28-055b-49cd-8c7e-97494a21eb54&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[API documentation](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9c28f47-1253-44af-a2f3-20dce4da1f18&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[Authorization methods](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=31a9a6ed-4cdf-4ced-984c-d12c9aec1c27&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34400745"
+	},
+	"item": [
+		{
+			"name": "Позитивные тест-кейсы",
+			"item": [
+				{
+					"name": "Получение расписания на портале преподавателя",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"from\":\"2024-04-29T01:00:00+04:00\",\"till\":\"2024-05-06T01:00:00+04:00\",\"onlyTypes\":[]}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/events",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание события на кириллице",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var key = \"eventId\";\r",
+									"var value = pm.response.json().data.payload.id;\r",
+									"pm.collectionVariables.set(key, value);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"backgroundColor\":\"#F4F5F6\",\"color\":\"#81888D\",\"description\":\"Лечение зуба (кариес)\",\"title\":\"Стоматолог\",\"startAt\":\"2024-05-07T09:00:00+04:00\",\"endAt\":\"2024-05-07T10:30:00+04:00\"}\r\n\r\n\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/createPersonal",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Событие на латинице",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var key = \"eventId\";\r",
+									"var value = pm.response.json().data.payload.id;\r",
+									"pm.collectionVariables.set(key, value);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const moment = require('moment');\r",
+									"pm.collectionVariables.set(\"today\", moment().format(\"YYYY/MM/DD\"));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"backgroundColor\":\"#FFF7C7\",\"color\":\"#FAC641\",\"description\":\"Meeting with students about life\",\"title\":\"Meeting\",\"startAt\":\"2024-05-07T15:00:00+04:00\",\"endAt\":\"2024-05-07T16:00:00+04:00\"}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/createPersonal",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание события в прошлом",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var key = \"eventId\";\r",
+									"var value = pm.response.json().data.payload.id;\r",
+									"pm.collectionVariables.set(key, value);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"backgroundColor\":\"#EBFDF2\",\"color\":\"#43B658\",\"description\":\"Привести тело в форму\",\"title\":\"Фитнес\",\"startAt\":\"2024-04-23T12:30:00+04:00\",\"endAt\":\"2024-04-23T14:30:00+04:00\"}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/createPersonal",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание личного события в будущем",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var key = \"eventId\";\r",
+									"var value = pm.response.json().data.payload.id;\r",
+									"pm.collectionVariables.set(key, value);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"backgroundColor\":\"#F9EBFF\",\"color\":\"#D478F1\",\"description\":\"Sdat Kursovuy na proverky\",\"title\":\"Sdacha Kursovouy\",\"startAt\":\"2024-05-21T09:00:00+04:00\",\"endAt\":\"2024-05-21T10:20:00+04:00\"}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/createPersonal",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"createPersonal"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Редактирование личного события (по названию)",
+			"item": [
+				{
+					"name": "Создание личного события",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var key = \"eventId1\";\r",
+									"var value = pm.response.json().data.payload.id;\r",
+									"pm.collectionVariables.set(key, value);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"backgroundColor\":\"#F4F5F6\",\"color\":\"#81888D\",\"description\":\"My lesson with a tutor\",\"title\":\"English\",\"startAt\":\"2024-05-08T09:00:00+04:00\",\"endAt\":\"2024-05-08T10:15:00+04:00\"}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/createPersonal",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Изменения в названии личного события",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"backgroundColor\":\"#F4F5F6\",\"color\":\"#81888D\",\"description\":\"My lesson with a tutor\",\"title\":\"English language\",\"startAt\":\"2024-05-08T09:00:00+04:00\",\"endAt\":\"2024-05-08T10:15:00+04:00\",\"id\":{{eventId}},\"oldStartAt\":\"2024-05-08T09:00:00+04:00\"}\r\n\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/updatePersonal",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"updatePersonal"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Редактирование личного события (по дате и времени)",
+			"item": [
+				{
+					"name": "Создание личного события",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var key = \"eventId2\";\r",
+									"var value = pm.response.json().data.payload.id;\r",
+									"pm.collectionVariables.set(key, value);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"backgroundColor\":\"#EBFDF2\",\"color\":\"#43B658\",\"description\":\"Поход в музей с учениками\",\"title\":\"Археологический музей\",\"startAt\":\"2024-05-08T15:00:00+04:00\",\"endAt\":\"2024-05-08T17:30:00+04:00\"}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/createPersonal",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Изменение даты и времени в личном событии",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"backgroundColor\":\"#EBFDF2\",\"color\":\"#43B658\",\"description\":\"Поход в музей с учениками\",\"title\":\"Археологический музей\",\"startAt\":\"2024-05-11T14:00:00+04:00\",\"endAt\":\"2024-05-11T16:30:00+04:00\",\"id\":{{eventId}},\"oldStartAt\":\"2024-05-08T15:00:00+04:00\"}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/updatePersonal",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"updatePersonal"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Редактирование личного события (по описанию)",
+			"item": [
+				{
+					"name": "Создание личного события",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var key = \"eventId3\";\r",
+									"var value = pm.response.json().data.payload.id;\r",
+									"pm.collectionVariables.set(key, value);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"backgroundColor\":\"#F9EBFF\",\"color\":\"#D478F1\",\"description\":\"\",\"title\":\"Театр\",\"startAt\":\"2024-05-17T19:00:00+04:00\",\"endAt\":\"2024-05-17T21:30:00+04:00\"}\r\n\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/createPersonal",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Добавление описания в личном событии",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"backgroundColor\":\"#F9EBFF\",\"color\":\"#D478F1\",\"description\":\"“Мастер и Маргарита” с коллегами\",\"title\":\"Театр\",\"startAt\":\"2024-05-17T19:00:00+04:00\",\"endAt\":\"2024-05-17T21:30:00+04:00\",\"id\":{{eventId}},\"oldStartAt\":\"2024-05-17T19:00:00+04:00\"}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/updatePersonal",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"updatePersonal"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Редактирование личного события (по цвету)",
+			"item": [
+				{
+					"name": "Создание личного события",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var key = \"eventId4\";\r",
+									"var value = pm.response.json().data.payload.id;\r",
+									"pm.collectionVariables.set(key, value);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"backgroundColor\":\"#F4F5F6\",\"color\":\"#81888D\",\"description\":\"Сбор средств нуждающимся Семьям\",\"title\":\"Благотворительность\",\"startAt\":\"2024-05-15T15:40:00+04:00\",\"endAt\":\"2024-05-15T17:25:00+04:00\"}\r\n\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/createPersonal",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Изменение цвета личного события",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"backgroundColor\":\"#FFF7C7\",\"color\":\"#FAC641\",\"description\":\"Сбор средств нуждающимся Семьям\",\"title\":\"Благотворительность\",\"startAt\":\"2024-05-15T15:40:00+04:00\",\"endAt\":\"2024-05-15T17:25:00+04:00\",\"id\":{{eventId}},\"oldStartAt\":\"2024-05-15T15:40:00+04:00\"}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/updatePersonal",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"updatePersonal"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Удаление личного события в календаре",
+			"item": [
+				{
+					"name": "Создание личного события",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var key = \"eventId5\";\r",
+									"var value = pm.response.json().data.payload.id;\r",
+									"pm.collectionVariables.set(key, value);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"backgroundColor\":\"#F4F5F6\",\"color\":\"#81888D\",\"description\":\"Сбор средств нуждающимся Семьям\",\"title\":\"Благотворительность\",\"startAt\":\"2024-05-15T15:40:00+04:00\",\"endAt\":\"2024-05-15T17:25:00+04:00\"}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/createPersonal",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Удаление личного события",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\":{{eventId}},\"startAt\":\"2024-05-15T15:40:00+04:00\"}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/removePersonal",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"removePersonal"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Негативные тест-кейсы",
+			"item": [
+				{
+					"name": "Создание личного события с пустым названием",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"backgroundColor\":\"#EBFDF2\",\"color\":\"#43B658\",\"description\":\"下班下车%$#@@\",\"title\":\"\",\"startAt\":\"2024-05-15T15:20:00+04:00\",\"endAt\":\"2024-05-15T17:50:00+04:00\"}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/createPersonal",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание личного события (в Названии больше 40 символов)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"backgroundColor\":\"#F9EBFF\",\"color\":\"#D478F1\",\"description\":\"Everyone sleeps at night\",\"title\":\"Test nightghghghghghghghghghghghghhghghg12\",\"startAt\":\"2024-05-14T02:00:00+04:00\",\"endAt\":\"2024-05-14T03:15:00+04:00\"}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/createPersonal",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание личного события (в Описании больше 500 символов)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"backgroundColor\":\"#EBFDF2\",\"color\":\"#43B658\",\"description\":\"It's so shortНо новая модель организационной деятельности однозначно фиксирует необходимость инновационных методов управления процессами. Сложно сказать, почему тщательные исследования конкурентов представляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть разоблачены. Для современного мира сложившаяся структура организации способствует подготовке и реализации глубокомысленных рассуждений. А также стремящиеся вытеснить традиционное производство, нанотехнологии являются только что\",\"title\":\"One minute\",\"startAt\":\"2024-05-13T09:30:00+04:00\",\"endAt\":\"2024-05-13T09:31:00+04:00\"}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/createPersonal",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание события с некорректной датой",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"backgroundColor\":\"#FFF7C7\",\"color\":\"#FAC641\",\"description\":\"\",\"title\":\"Выезд на природу\",\"startAt\":\"2024-04-31T06:00:00+04:00\",\"endAt\":\"2024-04-31T00:59:00+04:00\"}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/createPersonal",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание события с некорректным промежутком времени",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"backgroundColor\":\"#F4F5F6\",\"color\":\"#81888D\",\"description\":\"\",\"title\":\"Bag\",\"startAt\":\"2024-05-17T23:50:00+04:00\",\"endAt\":\"2024-05-17T22:00:00+04:00\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/createPersonal",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"createPersonal"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "inherit"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://api-teachers.skyeng.ru/v2/schedule"
+		},
+		{
+			"key": "auth_token",
+			"value": "token_global=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VySWQiOjE0ODk0MjUwLCJpZGVudGl0eSI6InRlc3QudHN0MzQ1QHNreWVuZy5ydSIsImlkZW50aXR5TG9naW4iOm51bGwsImlkZW50aXR5RW1haWwiOiJ0ZXN0LnRzdDM0NUBza3llbmcucnUiLCJpZGVudGl0eVBob25lIjoiKzc5MTY1MDAyMjU1IiwibmFtZSI6Ilx1MDQxMFx1MDQzYlx1MDQzNVx1MDQzYVx1MDQ0MVx1MDQzNVx1MDQzOSIsInN1cm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJ0ZXN0LnRzdDM0NUBza3llbmcucnUiLCJ1aUxhbmd1YWdlIjoicnUiLCJsb2NhbGUiOiJydSIsInNlcnZpY2VMb2NhbGUiOm51bGwsInVhcyI6MzAsImp3dFR5cGUiOjEsImp0aSI6IjZJajJmNHpNZnJzb1dMMkxxTUxBSUpkWWt6NmVZOGlPIiwiYnJhbmQiOm51bGwsImV4cCI6MTcxNTQzMjAwNSwiYmlydGhkYXkiOiIyMDA2LTEwLTEwIiwiYUlzU3Ryb25nIjp0cnVlLCJhVHlwZSI6IlVTRVJOQU1FX1BBU1NXT1JEIiwiYVRpbWUiOjE3MTUzNDU2MDMsInJvbGVzIjpbIlJPTEVfVEVBQ0hFUl9DQU5ESURBVEUiLCJST0xFX1RFQUNIRVJfQ0FORElEQVRFX0JBU0VfQUNDRVNTIiwiUk9MRV9UVENfVVNBR0UiLCJST0xFX1ZJTUJPWF9URUFDSEVSX1VTQUdFIiwiUk9MRV9URUFDSEVSIiwiUk9MRV9DUk0yX1RFQUNIRVJfQUNDRVNTIiwiUk9MRV9NQVRIX1RFQUNIRVIiLCJST0xFX01BVEhfQ09OVEVOVF9USEVNRV9WSUVXIl19.kILfFtLImee-6HYZXtFrGdf4SoMC5eIBXitdZCaInwVF4IBaFm08olqcDF2QhWbTYOLqLIaVdEuvfpEVZpNIqmajrDV_pT4xgzMcM1hrDzzT4qwox7qoajh7uOEg0E8c4Doef3alUTe-1_3rsC3wj6X3wWttezPhFvIOYUrjfgKKndVK494P-8jivVf23FltmswJwNpd-K4X_Nq7aLBLB9qni8Q6kKGBmDxvB48PartM_VY-ASdu7ULNSeiI7pLx9VD_EKBtzEsEAHUjXJEtr7DOrBbceJHhWoef8iv2LYZfn06Yqo0zmJdPle-i2MVpX3fSkj2qwvVy8peaVMN7QutTcIE9qdX15eXjknlmV9fRwVkAw6nZwlQ4AAZeKWgdNQ4IHBsSTT005vRk3Z3NMr8VTMFi7rgDvvVN85kxLmRek6BEDbLmkiMk7pdeyWEOgMgYMpEbn0JiPdha7k9__NYRu_efCjtIHTxZE40Ea2OAoauAcohMHbPk39LJCGp_cPIi5L8dFwKlkWba641jgbHaNRPoq7uaxZaJOg7za0iVsFwTAx8QxIL-xswIJddQk0e4vek3Ao7pQTCedA0ss1v-kVIoSKRcTNrJuyAl2w8nX1nxMGw9P29mVFr7vrFJbxgDsF9zDdsEnIlJI-FHAg2O4Jm-xtUn2b6iO4YjbyE;",
+			"type": "string"
+		},
+		{
+			"key": "eventId",
+			"value": ""
+		},
+		{
+			"key": "today",
+			"value": ""
+		}
+	]
+}
